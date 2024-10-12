@@ -1,0 +1,10 @@
+.page {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.page__content {
+  width: 90%;
+  max-width: 880px;
+  margin-inline: auto;
+}
