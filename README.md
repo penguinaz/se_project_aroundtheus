@@ -9,3 +9,7 @@ This project features a webpage with an adaptive design. It is capable of displa
 **Github Pages**
 
 [Link to the project on Github Pages](https://penguinaz.github.io/se_project_aroundtheus)
+
+**Video Tour**
+
+[Link to the Google Drive file](https://drive.google.com/file/d/1sAic-eZ_Co3xJv3wrrADlV5C0qCj2nEH/view?usp=sharing)
