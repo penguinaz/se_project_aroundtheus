@@ -1,10 +1,12 @@
 .page {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #000;
+  color: #fff;
 }
 
-.page__content {
-  width: 90%;
-  max-width: 880px;
-  margin-inline: auto;
+@media screen and (min-width: 645px) {
+  .page__content {
+    width: 90%;
+    max-width: 880px;
+    margin-inline: auto;
+  }
 }

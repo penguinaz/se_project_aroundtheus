@@ -9,6 +9,7 @@
 .profile__picture {
   width: 120px;
   height: 120px;
+  object-fit: cover;
 }
 
 .profile__info {
@@ -33,15 +34,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 225px;
 }
 
 .profile__edit-btn {
   background: transparent url(../images/edit.svg) center no-repeat;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   border: 1px solid white;
   opacity: 100%;
   transition: opacity 0.3s ease-in;
+  cursor: pointer;
 }
 
 .profile__edit-btn:hover {
@@ -66,8 +69,55 @@
   border: 2px solid white;
   opacity: 100%;
   transition: opacity 0.3s ease-in;
+  cursor: pointer;
 }
 
 .profile__add-btn:hover {
   opacity: 60%;
+}
+
+@media screen and (min-width: 645px) {
+  .profile {
+    flex-direction: row;
+  }
+
+  .profile__add-btn {
+    max-width: 150px;
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .profile__info {
+    margin-left: 30px;
+    margin-right: 30px;
+    align-items: start;
+  }
+
+  .profile__caption {
+    font-size: 16px;
+  }
+
+  .profile__name {
+    font-size: 25px;
+  }
+
+  .profile__edit-btn {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (min-width: 835px) {
+  .profile__caption {
+    font-size: 18px;
+  }
+
+  .profile__name {
+    font-size: 42px;
+    max-width: 375px;
+  }
+
+  .footer__caption {
+    font-size: 18px;
+  }
 }

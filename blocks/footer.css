@@ -13,3 +13,20 @@
   line-height: 1.2;
   text-align: left;
 }
+
+@media screen and (min-width: 645px) {
+  .footer {
+    padding-top: 67px;
+    padding-bottom: 60px;
+  }
+
+  .footer__caption {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 835px) {
+  .footer__caption {
+    font-size: 18px;
+  }
+}

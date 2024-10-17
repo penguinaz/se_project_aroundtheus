@@ -1,0 +1,49 @@
+.element {
+  background-color: white;
+  color: black;
+  width: 100%;
+  min-height: 360px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.element__picture {
+  margin: 0;
+  width: 100%;
+  min-height: 282px;
+  max-height: 282px;
+  object-fit: cover;
+}
+
+.element__caption {
+  margin: 25px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.element__title {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 220px;
+}
+
+.element__like-btn {
+  cursor: pointer;
+  background: transparent url(../images/like.svg) center no-repeat;
+  width: 21px;
+  height: 18px;
+  border: none;
+  opacity: 100%;
+  transition: opacity 0.3s ease-in;
+}
+
+.element__like-btn:hover {
+  opacity: 0.5;
+}
