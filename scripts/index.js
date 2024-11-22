@@ -27,10 +27,16 @@ let initialCards = [
 
 const page = document.querySelector(".page");
 const editBtn = page.querySelector(".profile__edit-btn");
+const profileName = page.querySelector(".profile__name");
+const profileCaption = page.querySelector(".profile__caption");
 const modal = page.querySelector(".modal");
 const closeBtn = modal.querySelector(".modal__exit-btn");
+const formName = modal.querySelector(".form__input#title");
+const formCaption = modal.querySelector(".form__input#caption");
 
 editBtn.addEventListener("click", function () {
+  formName.value = profileName.textContent;
+  formCaption.value = profileCaption.textContent;
   modal.classList.add("modal_opened");
 });
 
