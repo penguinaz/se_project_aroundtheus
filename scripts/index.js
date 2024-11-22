@@ -36,6 +36,24 @@ const formName = form.querySelector(".form__input#title");
 const formCaption = form.querySelector(".form__input#caption");
 const saveBtn = form.querySelector(".form__save-btn");
 
+const elementTemplate = page.querySelector("#element").content;
+const elementContainer = page.querySelector(".elements__container");
+
+function getCardElement(data) {
+  let cardElement = elementTemplate.querySelector(".element").cloneNode(true);
+  let cardImage = cardElement.querySelector(".element__picture");
+  let cardTitle = cardElement.querySelector(".element__title");
+  cardImage.src = data.link;
+  cardImage.alt = data.name;
+  cardTitle.textContent = data.name;
+  return cardElement;
+}
+
+for (let i = 0; i < initialCards.length; i++) {
+  let currentCard = getCardElement(initialCards[i]);
+  elementContainer.append(currentCard);
+}
+
 editBtn.addEventListener("click", function () {
   formName.value = profileName.textContent;
   formCaption.value = profileCaption.textContent;
