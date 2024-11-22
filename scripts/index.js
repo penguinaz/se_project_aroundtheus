@@ -31,8 +31,10 @@ const profileName = page.querySelector(".profile__name");
 const profileCaption = page.querySelector(".profile__caption");
 const modal = page.querySelector(".modal");
 const closeBtn = modal.querySelector(".modal__exit-btn");
-const formName = modal.querySelector(".form__input#title");
-const formCaption = modal.querySelector(".form__input#caption");
+const form = modal.querySelector(".form");
+const formName = form.querySelector(".form__input#title");
+const formCaption = form.querySelector(".form__input#caption");
+const saveBtn = form.querySelector(".form__save-btn");
 
 editBtn.addEventListener("click", function () {
   formName.value = profileName.textContent;
@@ -43,3 +45,12 @@ editBtn.addEventListener("click", function () {
 closeBtn.addEventListener("click", function () {
   modal.classList.remove("modal_opened");
 });
+
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  profileName.textContent = formName.value;
+  profileCaption.textContent = formCaption.value;
+  modal.classList.remove("modal_opened");
+}
+
+form.addEventListener("submit", handleProfileFormSubmit);
