@@ -52,6 +52,10 @@ function getCardElement(data) {
   let cardElement = elementTemplate.querySelector(".element").cloneNode(true);
   let cardImage = cardElement.querySelector(".element__picture");
   let cardTitle = cardElement.querySelector(".element__title");
+  let likeBtn = cardElement.querySelector(".element__like-btn");
+  likeBtn.addEventListener("click", (evt) => {
+    evt.currentTarget.classList.toggle("element__like-btn_active");
+  });
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;

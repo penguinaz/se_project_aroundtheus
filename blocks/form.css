@@ -44,6 +44,11 @@
   margin-top: 15px;
 }
 
+.form__save-btn:hover {
+  opacity: 80%;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 645px) {
   .form__title {
     font-size: 24px;
