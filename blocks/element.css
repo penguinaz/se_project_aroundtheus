@@ -5,6 +5,7 @@
   min-height: 360px;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
 }
 
 .element__picture {
@@ -13,6 +14,23 @@
   min-height: 282px;
   max-height: 282px;
   object-fit: cover;
+}
+
+.element__trash-btn {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  background: transparent url(../images/trashcan.svg) center no-repeat;
+  width: 18px;
+  height: 19.3px;
+  border: none;
+  cursor: pointer;
+  opacity: 100%;
+  transition: opacity 0.3s ease-in;
+}
+
+.element__trash-btn:hover {
+  opacity: 0.6;
 }
 
 .element__caption {

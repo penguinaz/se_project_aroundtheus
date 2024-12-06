@@ -56,6 +56,10 @@ function getCardElement(data) {
   likeBtn.addEventListener("click", (evt) => {
     evt.currentTarget.classList.toggle("element__like-btn_active");
   });
+  let trashBtn = cardElement.querySelector(".element__trash-btn");
+  trashBtn.addEventListener("click", () => {
+    trashBtn.closest(".element").remove();
+  });
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
