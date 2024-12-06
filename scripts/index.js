@@ -30,6 +30,10 @@ const editBtn = page.querySelector(".profile__edit-btn");
 const addBtn = page.querySelector(".profile__add-btn");
 const profileName = page.querySelector(".profile__name");
 const profileCaption = page.querySelector(".profile__caption");
+const imageModal = document.querySelector(".image-modal");
+const imageModalCloseBtn = imageModal.querySelector(".image-modal__exit-btn");
+const imageModalPicture = imageModal.querySelector(".image-modal__image");
+const imageModalCaption = imageModal.querySelector(".image-modal__caption");
 const modal = page.querySelector(".modal");
 const closeBtn = modal.querySelector(".modal__exit-btn");
 const form = modal.querySelector(".form");
@@ -51,6 +55,13 @@ const elementContainer = page.querySelector(".elements__container");
 function getCardElement(data) {
   let cardElement = elementTemplate.querySelector(".element").cloneNode(true);
   let cardImage = cardElement.querySelector(".element__picture");
+  cardImage.addEventListener("click", () => {
+    console.log("click");
+    imageModalPicture.src = data.link;
+    imageModalPicture.alt = data.name;
+    imageModalCaption.textContent = data.name;
+    imageModal.classList.add("image-modal_opened");
+  });
   let cardTitle = cardElement.querySelector(".element__title");
   let likeBtn = cardElement.querySelector(".element__like-btn");
   likeBtn.addEventListener("click", (evt) => {
@@ -92,6 +103,10 @@ addBtn.addEventListener("click", function () {
   formName.value = "";
   formCaption.value = "";
   modal.classList.add("modal_opened");
+});
+
+imageModalCloseBtn.addEventListener("click", () => {
+  imageModal.classList.remove("image-modal_opened");
 });
 
 closeBtn.addEventListener("click", function () {
