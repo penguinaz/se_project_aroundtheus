@@ -30,24 +30,20 @@ const editBtn = page.querySelector(".profile__edit-btn");
 const addBtn = page.querySelector(".profile__add-btn");
 const profileName = page.querySelector(".profile__name");
 const profileCaption = page.querySelector(".profile__caption");
-const imageModal = document.querySelector(".image-modal");
-const imageModalCloseBtn = imageModal.querySelector(".image-modal__exit-btn");
-const imageModalPicture = imageModal.querySelector(".image-modal__image");
-const imageModalCaption = imageModal.querySelector(".image-modal__caption");
-const modal = page.querySelector(".modal");
-const closeBtn = modal.querySelector(".modal__exit-btn");
-const form = modal.querySelector(".form");
-const formTitle = form.querySelector(".form__title");
-const formName = form.querySelector(".form__input#title");
-const formCaption = form.querySelector(".form__input#caption");
-const saveBtn = form.querySelector(".form__save-btn");
-
-/*
-i noticed the forms have identical design, so instead of using 2 different forms, i am going to use
-functions to repurpose the forms for certain tasks. i tried using templates instead, but after a few hours
-of trying i reverted back to my previous commit.
-*/
-let formPurpose = 0; // if formPurpose == 0, opens form to edit profile, if formPurpose == 1, opens form to add picture
+const profileModal = page.querySelector("#profile-modal");
+const cardModal = page.querySelector("#card-modal");
+const imageModal = page.querySelector("#image-modal");
+const imageModalPicture = page.querySelector(".modal-image__picture");
+const imageModalCaption = page.querySelector(".modal-image__caption");
+const closeBtns = page.querySelectorAll(".modal__exit-btn");
+const profileForm = page.querySelector("#profile-form");
+const cardForm = page.querySelector("#card-form");
+const formName = page.querySelector(".form__input#name");
+const formCaption = page.querySelector(".form__input#caption");
+const formTitle = page.querySelector(".form__input#title");
+const formUrl = page.querySelector(".form__input#url");
+const saveBtn = page.querySelector(".form__save-btn#save");
+const createBtn = page.querySelector(".form__create-btn#create");
 
 const elementTemplate = page.querySelector("#element").content;
 const elementContainer = page.querySelector(".elements__container");
@@ -56,11 +52,10 @@ function getCardElement(data) {
   let cardElement = elementTemplate.querySelector(".element").cloneNode(true);
   let cardImage = cardElement.querySelector(".element__picture");
   cardImage.addEventListener("click", () => {
-    console.log("click");
     imageModalPicture.src = data.link;
     imageModalPicture.alt = data.name;
     imageModalCaption.textContent = data.name;
-    imageModal.classList.add("image-modal_opened");
+    imageModal.classList.add("modal_opened");
   });
   let cardTitle = cardElement.querySelector(".element__title");
   let likeBtn = cardElement.querySelector(".element__like-btn");
@@ -82,50 +77,35 @@ initialCards.forEach((card) => {
   elementContainer.append(currentCard);
 });
 
-function populateForm(title, firstField, secondField, btn) {
-  formTitle.textContent = title;
-  formName.placeholder = firstField;
-  formCaption.placeholder = secondField;
-  saveBtn.textContent = btn;
-}
-
-editBtn.addEventListener("click", function () {
-  populateForm("Edit profile", "Name", "Description", "Save");
-  formPurpose = 0; // when the edit button is clicked, the form is repurposed to edit the profile
+editBtn.addEventListener("click", () => {
   formName.value = profileName.textContent;
   formCaption.value = profileCaption.textContent;
-  modal.classList.add("modal_opened");
+  profileModal.classList.add("modal_opened");
 });
 
-addBtn.addEventListener("click", function () {
-  populateForm("New place", "Title", "Image link", "Create");
-  formPurpose = 1; // when the add button is clicked, the form is repurposed to add a picture
-  formName.value = "";
-  formCaption.value = "";
-  modal.classList.add("modal_opened");
+addBtn.addEventListener("click", () => {
+  cardModal.classList.add("modal_opened");
 });
 
-imageModalCloseBtn.addEventListener("click", () => {
-  imageModal.classList.remove("image-modal_opened");
-});
-
-closeBtn.addEventListener("click", function () {
-  modal.classList.remove("modal_opened");
+closeBtns.forEach((button) => {
+  button.addEventListener("click", (evt) => {
+    evt.currentTarget.closest(".modal").classList.remove("modal_opened");
+  });
 });
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  if (formPurpose == 0) {
-    // 0 means the form is for profile editing
-    profileName.textContent = formName.value;
-    profileCaption.textContent = formCaption.value;
-  } else if (formPurpose == 1) {
-    // 1 means the form is for adding a picture
-    console.log("Add picture");
-    initialCards.unshift({ name: formName.value, link: formCaption.value });
-    elementContainer.prepend(getCardElement(initialCards[0]));
-  }
-  modal.classList.remove("modal_opened");
+  profileName.textContent = formName.value;
+  profileCaption.textContent = formCaption.value;
+  profileModal.classList.remove("modal_opened");
 }
 
-form.addEventListener("submit", handleProfileFormSubmit);
+function handleCardFormSubmit(evt) {
+  evt.preventDefault();
+  initialCards.unshift({ name: formTitle.value, link: formUrl.value });
+  elementContainer.prepend(getCardElement(initialCards[0]));
+  cardModal.classList.remove("modal_opened");
+}
+
+profileForm.addEventListener("submit", handleProfileFormSubmit);
+cardForm.addEventListener("submit", handleCardFormSubmit);
