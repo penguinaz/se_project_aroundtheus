@@ -1,0 +1,34 @@
+.modal-image__container {
+  position: relative;
+  margin: auto;
+  max-width: 240px;
+}
+
+.modal-image__picture {
+  width: 100%;
+  min-height: 299px;
+  max-height: 299px;
+}
+
+.modal-image__caption {
+  margin: 10px 0 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #fff;
+}
+
+@media screen and (min-width: 645px) {
+  .modal-image__container {
+    max-width: 75vw;
+  }
+
+  .modal-image__picture {
+    min-height: 75vh;
+    max-height: 75vh;
+  }
+}
