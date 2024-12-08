@@ -1,4 +1,4 @@
-.modal-image__container {
+.modal-image {
   position: relative;
   margin: auto;
   max-width: 240px;
@@ -23,7 +23,7 @@
 }
 
 @media screen and (min-width: 645px) {
-  .modal-image__container {
+  .modal-image {
     max-width: 75vw;
   }
 
