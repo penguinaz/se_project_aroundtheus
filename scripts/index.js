@@ -62,20 +62,20 @@ function closePopup(popup) {
 }
 
 function getCardElement(data) {
-  let cardElement = elementTemplate.querySelector(".element").cloneNode(true);
-  let cardImage = cardElement.querySelector(".element__picture");
+  const cardElement = elementTemplate.querySelector(".element").cloneNode(true);
+  const cardImage = cardElement.querySelector(".element__picture");
   cardImage.addEventListener("click", () => {
     imageModalPicture.src = data.link;
     imageModalPicture.alt = data.name;
     imageModalCaption.textContent = data.name;
     openPopup(imageModal);
   });
-  let cardTitle = cardElement.querySelector(".element__title");
-  let likeBtn = cardElement.querySelector(".element__like-btn");
+  const cardTitle = cardElement.querySelector(".element__title");
+  const likeBtn = cardElement.querySelector(".element__like-btn");
   likeBtn.addEventListener("click", (evt) => {
     evt.currentTarget.classList.toggle("element__like-btn_active");
   });
-  let trashBtn = cardElement.querySelector(".element__trash-btn");
+  const trashBtn = cardElement.querySelector(".element__trash-btn");
   trashBtn.addEventListener("click", () => {
     cardElement.remove();
   });
@@ -121,6 +121,8 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   renderCard({ name: formTitle.value, link: formUrl.value });
   closePopup(cardModal);
+  formTitle.value = "";
+  formUrl.value = "";
 }
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
