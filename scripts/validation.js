@@ -16,7 +16,6 @@ const config = {
 const toggleSaveButton = (form, inputList, options) => {
   saveButton = form.querySelector(options.submitButtonSelector);
   if (inputList.some((input) => !input.validity.valid)) {
-    console.log(inputList);
     saveButton.disabled = true;
     saveButton.classList.add(options.inactiveButtonClass);
   } else {

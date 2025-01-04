@@ -128,3 +128,15 @@ function handleCardFormSubmit(evt) {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 cardForm.addEventListener("submit", handleCardFormSubmit);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closePopup(document.querySelector(".modal_opened"));
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("modal")) {
+    closePopup(document.querySelector(".modal_opened"));
+  }
+});
