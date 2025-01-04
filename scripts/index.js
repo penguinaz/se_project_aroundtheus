@@ -97,6 +97,7 @@ initialCards.forEach((card) => {
 editBtn.addEventListener("click", () => {
   formName.value = profileName.textContent;
   formCaption.value = profileCaption.textContent;
+  // console.log("fields populated");
   openPopup(profileModal);
 });
 

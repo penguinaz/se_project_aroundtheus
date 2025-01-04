@@ -57,7 +57,7 @@
     <div class="modal" id="profile-modal">
       <div class="modal__container">
         <button class="modal__exit-btn" type="button"></button>
-        <form class="modal__form form" id="profile-form">
+        <form class="modal__form form" id="profile-form" novalidate>
           <p class="form__title">Edit profile</p>
           <input
             class="form__input"
@@ -65,14 +65,22 @@
             id="name"
             name="name"
             placeholder="Name"
+            minlength="2"
+            maxlength="40"
+            required
           />
+          <span class="form__error-message" id="name-error"></span>
           <input
             class="form__input"
             type="text"
             id="caption"
             name="caption"
             placeholder="Description"
+            minlength="2"
+            maxlength="200"
+            required
           />
+          <span class="form__error-message" id="caption-error"></span>
           <button class="form__save-btn" id="save" type="submit">Save</button>
         </form>
       </div>
@@ -80,7 +88,7 @@
     <div class="modal" id="card-modal">
       <div class="modal__container">
         <button class="modal__exit-btn" type="button"></button>
-        <form class="modal__form form" id="card-form">
+        <form class="modal__form form" id="card-form" novalidate>
           <p class="form__title">New place</p>
           <input
             class="form__input"
@@ -88,14 +96,20 @@
             id="title"
             name="title"
             placeholder="Title"
+            minlength="1"
+            maxlength="30"
+            required
           />
+          <span class="form__error-message" id="title-error"></span>
           <input
             class="form__input"
-            type="text"
+            type="url"
             id="url"
             name="url"
             placeholder="Image link"
+            required
           />
+          <span class="form__error-message" id="url-error"></span>
           <button class="form__save-btn" id="create" type="submit">
             Create
           </button>
@@ -110,5 +124,6 @@
       </div>
     </div>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validation.js"></script>
   </body>
 </html>
