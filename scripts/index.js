@@ -56,10 +56,18 @@ const elementContainer = page.querySelector(".elements__container");
 
 function openPopup(popup) {
   popup.classList.add("modal_opened");
+  window.addEventListener("keyup", closeModalOnEsc);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
+  window.removeEventListener("keyup", closeModalOnEsc);
+}
+
+function closeModalOnEsc(evt) {
+  if (evt.key == "Escape") {
+    closePopup(page.querySelector(".modal_opened"));
+  }
 }
 
 function getCardElement(data) {
@@ -133,15 +141,3 @@ function handleCardFormSubmit(evt) {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 cardForm.addEventListener("submit", handleCardFormSubmit);
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closePopup(document.querySelector(".modal_opened"));
-  }
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("modal")) {
-    closePopup(document.querySelector(".modal_opened"));
-  }
-});
