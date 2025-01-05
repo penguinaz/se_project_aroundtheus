@@ -29,11 +29,19 @@
           <div class="profile__info">
             <div class="profile__title">
               <h1 class="profile__name">Jacques Cousteau</h1>
-              <button class="profile__edit-btn" type="button"></button>
+              <button
+                class="profile__edit-btn"
+                id="profile-form-btn"
+                type="button"
+              ></button>
             </div>
             <p class="profile__caption">Explorer</p>
           </div>
-          <button class="profile__add-btn" type="button"></button>
+          <button
+            class="profile__add-btn"
+            id="card-form-btn"
+            type="button"
+          ></button>
         </section>
         <section class="elements">
           <ul class="elements__container">
@@ -81,7 +89,9 @@
             required
           />
           <span class="form__error-message" id="caption-error"></span>
-          <button class="form__save-btn" id="save" type="submit">Save</button>
+          <button class="form__save-btn" id="save-btn" type="submit">
+            Save
+          </button>
         </form>
       </div>
     </div>
@@ -110,7 +120,7 @@
             required
           />
           <span class="form__error-message" id="url-error"></span>
-          <button class="form__save-btn" id="create" type="submit">
+          <button class="form__save-btn" id="create-btn" type="submit">
             Create
           </button>
         </form>

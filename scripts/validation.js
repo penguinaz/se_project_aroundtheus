@@ -1,9 +1,3 @@
-// will use forEach() method to set the initial state of submit buttons
-const formOpeners = [
-  document.querySelector(".profile__edit-btn"),
-  document.querySelector(".profile__add-btn"),
-];
-
 const config = {
   formSelector: ".modal__form",
   inputSelector: ".form__input",
@@ -46,15 +40,7 @@ const checkInputValidity = (form, input, options) => {
   }
 };
 
-const setEventListeners = (form, options) => {
-  const inputList = [...form.querySelectorAll(options.inputSelector)];
-  // setting initial state of submit buttons
-  formOpeners.forEach((opener) => {
-    opener.addEventListener("click", () => {
-      toggleSaveButton(form, inputList, options);
-      // console.log(`${opener} toggled save button`);
-    });
-  });
+const setEventListeners = (form, inputList, options) => {
   inputList.forEach((input) => {
     input.addEventListener("input", (e) => {
       checkInputValidity(form, e.target, options);
@@ -73,8 +59,12 @@ const enableValidation = (options) => {
     form.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
+    const inputList = [...form.querySelectorAll(options.inputSelector)];
+    document.querySelector(`#${form.id}-btn`).addEventListener("click", () => {
+      toggleSaveButton(form, inputList, options);
+    });
 
-    setEventListeners(form, options);
+    setEventListeners(form, inputList, options);
   });
 };
 
