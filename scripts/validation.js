@@ -8,7 +8,7 @@ const config = {
 };
 
 const toggleSaveButton = (form, inputList, options) => {
-  saveButton = form.querySelector(options.submitButtonSelector);
+  const saveButton = form.querySelector(options.submitButtonSelector);
   if (inputList.some((input) => !input.validity.valid)) {
     saveButton.disabled = true;
     saveButton.classList.add(options.inactiveButtonClass);
@@ -43,10 +43,6 @@ const checkInputValidity = (form, input, options) => {
 const setEventListeners = (form, inputList, options) => {
   inputList.forEach((input) => {
     input.addEventListener("input", (e) => {
-      checkInputValidity(form, e.target, options);
-      toggleSaveButton(form, inputList, options);
-    });
-    input.addEventListener("change", (e) => {
       checkInputValidity(form, e.target, options);
       toggleSaveButton(form, inputList, options);
     });
