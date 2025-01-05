@@ -28,6 +28,7 @@ const initialCards = [
 const page = document.querySelector(".page");
 
 // Modals:
+const modals = page.querySelectorAll(".modal");
 const profileModal = page.querySelector("#profile-modal");
 const cardModal = page.querySelector("#card-modal");
 const imageModal = page.querySelector("#image-modal");
@@ -105,9 +106,14 @@ addBtn.addEventListener("click", () => {
   openPopup(cardModal);
 });
 
-closeBtns.forEach((button) => {
-  button.addEventListener("click", (evt) => {
-    closePopup(evt.currentTarget.closest(".modal"));
+modals.forEach((modal) => {
+  modal.addEventListener("mousedown", (e) => {
+    if (
+      e.target.classList.contains("modal_opened") ||
+      e.target.classList.contains("modal__exit-btn")
+    ) {
+      closePopup(modal);
+    }
   });
 });
 
@@ -122,8 +128,7 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   renderCard({ name: formTitle.value, link: formUrl.value });
   closePopup(cardModal);
-  formTitle.value = "";
-  formUrl.value = "";
+  evt.target.reset();
 }
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
