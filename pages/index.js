@@ -1,3 +1,6 @@
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -27,6 +30,15 @@ const initialCards = [
 
 const page = document.querySelector(".page");
 
+const options = {
+  formSelector: ".modal__form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__save-btn",
+  inactiveButtonClass: "form__save-btn_disabled",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__error-message_visible",
+};
+
 // Modals:
 const modals = page.querySelectorAll(".modal");
 const profileModal = page.querySelector("#profile-modal");
@@ -43,6 +55,7 @@ const imageModalPicture = page.querySelector(".modal-image__picture");
 const imageModalCaption = page.querySelector(".modal-image__caption");
 
 // Forms and input fields:
+const forms = [...document.querySelectorAll(options.formSelector)];
 const profileForm = document.forms["profile-form"];
 const cardForm = document.forms["card-form"];
 const formName = page.querySelector(".form__input#name");
@@ -70,33 +83,16 @@ function closeModalOnEsc(evt) {
   }
 }
 
-function getCardElement(data) {
-  const cardElement = elementTemplate.querySelector(".element").cloneNode(true);
-  const cardImage = cardElement.querySelector(".element__picture");
-  cardImage.addEventListener("click", () => {
-    imageModalPicture.src = data.link;
-    imageModalPicture.alt = data.name;
-    imageModalCaption.textContent = data.name;
-    openPopup(imageModal);
-  });
-  const cardTitle = cardElement.querySelector(".element__title");
-  const likeBtn = cardElement.querySelector(".element__like-btn");
-  likeBtn.addEventListener("click", (evt) => {
-    evt.currentTarget.classList.toggle("element__like-btn_active");
-  });
-  const trashBtn = cardElement.querySelector(".element__trash-btn");
-  trashBtn.addEventListener("click", () => {
-    cardElement.remove();
-  });
-  cardImage.src = data.link;
-  cardImage.alt = data.name;
-  cardTitle.textContent = data.name;
-  return cardElement;
+function handleImageClick({ name, link }) {
+  imageModalPicture.src = link;
+  imageModalPicture.alt = name;
+  imageModalCaption.textContent = name;
+  openPopup(imageModal);
 }
 
 function renderCard(item, method = "prepend") {
-  const cardElement = getCardElement(item);
-  elementContainer[method](cardElement);
+  const cardElement = new Card(item, "#element", handleImageClick);
+  elementContainer[method](cardElement.createCard());
 }
 
 initialCards.forEach((card) => {
@@ -141,3 +137,8 @@ function handleCardFormSubmit(evt) {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 cardForm.addEventListener("submit", handleCardFormSubmit);
+
+forms.forEach((form) => {
+  const currentForm = new FormValidator(options, form);
+  currentForm.enableValidation();
+});
