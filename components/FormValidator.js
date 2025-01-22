@@ -2,12 +2,12 @@ export default class FormValidator {
   constructor(options, form) {
     this._options = options;
     this._form = form;
-  }
-
-  _toggleSaveButton() {
     this._saveButton = this._form.querySelector(
       this._options.submitButtonSelector
     );
+  }
+
+  _toggleSaveButton() {
     if (this._inputList.some((input) => !input.validity.valid)) {
       this._saveButton.disabled = true;
       this._saveButton.classList.add(this._options.inactiveButtonClass);
