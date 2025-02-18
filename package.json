@@ -1,0 +1,19 @@
+{
+  "name": "se_project_aroundtheus",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/penguinaz/se_project_aroundtheus.git"
+  },
+  "author": "Nazars Naumovs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/penguinaz/se_project_aroundtheus/issues"
+  },
+  "homepage": "https://github.com/penguinaz/se_project_aroundtheus#readme",
+  "description": ""
+}

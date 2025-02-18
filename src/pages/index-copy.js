@@ -1,5 +1,8 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 
 const initialCards = [
   {
@@ -67,42 +70,27 @@ const formUrl = page.querySelector(".form__input#url");
 const elementTemplate = page.querySelector("#element").content;
 const elementContainer = page.querySelector(".elements__container");
 
-function openPopup(popup) {
-  popup.classList.add("modal_opened");
-  window.addEventListener("keyup", closeModalOnEsc);
-}
-
-function closePopup(popup) {
-  popup.classList.remove("modal_opened");
-  window.removeEventListener("keyup", closeModalOnEsc);
-}
-
-function closeModalOnEsc(evt) {
-  if (evt.key == "Escape") {
-    closePopup(page.querySelector(".modal_opened"));
-  }
-}
-
 function handleImageClick({ name, link }) {
-  imageModalPicture.src = link;
-  imageModalPicture.alt = name;
-  imageModalCaption.textContent = name;
-  openPopup(imageModal);
+  const imageInstance = new PopupWithImage("#image-modal");
+  imageInstance.setEventListeners();
+  imageInstance.open({ name, link });
 }
 
-function renderCard(item, method = "prepend") {
-  const cardElement = new Card(item, "#element", handleImageClick);
-  elementContainer[method](cardElement.createCard());
-}
-
-initialCards.forEach((card) => {
-  renderCard(card, "append");
-});
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: (item, method = "prepend") => {
+      const cardElement = new Card(item, "#element", handleImageClick);
+      elementContainer[method](cardElement.createCard());
+    },
+  },
+  ".elements__container"
+);
+cardSection.renderItems();
 
 editBtn.addEventListener("click", () => {
   formName.value = profileName.textContent;
   formCaption.value = profileCaption.textContent;
-  // console.log("fields populated");
   openPopup(profileModal);
 });
 
@@ -130,7 +118,7 @@ function handleProfileFormSubmit(evt) {
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  renderCard({ name: formTitle.value, link: formUrl.value });
+  cardSection.addItem({ name: formTitle.value, link: formUrl.value });
   closePopup(cardModal);
   evt.target.reset();
 }
