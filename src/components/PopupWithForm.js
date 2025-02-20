@@ -11,6 +11,10 @@ export default class PopupWithForm extends Popup {
     };
   }
 
+  close() {
+    super.close();
+  }
+
   _getInputValues() {
     return Object.fromEntries(new FormData(this._popup.querySelector(".form")));
   }
