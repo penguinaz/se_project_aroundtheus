@@ -1,3 +1,4 @@
+import "./index.css";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -54,9 +55,8 @@ editBtn.addEventListener("click", () => {
 });
 
 // set up popup with form for adding a card
-const cardPopup = new PopupWithForm("#card-modal", (evt) => {
+const cardPopup = new PopupWithForm("#card-modal", () => {
   cardSection.addItem({ name: formTitle.value, link: formUrl.value });
-  // evt.target.reset(); for some reason, this won't work
 });
 addBtn.addEventListener("click", () => {
   formTitle.value = "";
