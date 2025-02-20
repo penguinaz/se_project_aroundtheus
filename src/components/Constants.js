@@ -34,18 +34,9 @@ export const options = {
   errorClass: "form__error-message_visible",
 };
 
-// Modals:
-const modals = document.querySelectorAll(".modal");
-const profileModal = document.querySelector("#profile-modal");
-const cardModal = document.querySelector("#card-modal");
-const imageModal = document.querySelector("#image-modal");
-
 // Buttons and other nodes:
 export const editBtn = document.querySelector(".profile__edit-btn");
 export const addBtn = document.querySelector(".profile__add-btn");
-const closeBtns = document.querySelectorAll(".modal__exit-btn");
-const profileName = document.querySelector(".profile__name");
-const profileCaption = document.querySelector(".profile__caption");
 export const imageModalPicture = document.querySelector(
   ".modal-image__picture"
 );
@@ -55,13 +46,7 @@ export const imageModalCaption = document.querySelector(
 
 // Forms and input fields:
 export const forms = [...document.querySelectorAll(options.formSelector)];
-const profileForm = document.forms["profile-form"];
-const cardForm = document.forms["card-form"];
 export const formName = document.querySelector(".form__input#name");
 export const formCaption = document.querySelector(".form__input#caption");
 export const formTitle = document.querySelector(".form__input#title");
 export const formUrl = document.querySelector(".form__input#url");
-
-// Templates:
-const elementTemplate = document.querySelector("#element").content;
-const elementContainer = document.querySelector(".elements__container");
