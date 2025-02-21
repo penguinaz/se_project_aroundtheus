@@ -18,9 +18,9 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
 // set up popups with images
+const imageInstance = new PopupWithImage("#image-modal");
+imageInstance.setEventListeners();
 function handleImageClick({ name, link }) {
-  const imageInstance = new PopupWithImage("#image-modal");
-  imageInstance.setEventListeners();
   imageInstance.open({ name, link });
 }
 
@@ -43,25 +43,27 @@ const profileInfo = new UserInfo({
 });
 
 // set up popup with profile form
-const profilePopup = new PopupWithForm("#profile-modal", () => {
-  profileInfo.setUserInfo(formName.value, formCaption.value);
-});
+const profilePopup = new PopupWithForm(
+  "#profile-modal",
+  ({ name, caption }) => {
+    profileInfo.setUserInfo(name, caption);
+  }
+);
+profilePopup.setEventListeners();
 editBtn.addEventListener("click", () => {
   const currentUserInfo = profileInfo.getUserInfo();
   formName.value = currentUserInfo.name;
   formCaption.value = currentUserInfo.caption;
-  profilePopup.setEventListeners();
   profilePopup.open();
 });
 
 // set up popup with form for adding a card
-const cardPopup = new PopupWithForm("#card-modal", () => {
-  cardSection.addItem({ name: formTitle.value, link: formUrl.value });
+const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
+  cardSection.addItem({ name: title, link: url });
+  document.querySelector("#card-modal").querySelector(".form").reset();
 });
+cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
-  formTitle.value = "";
-  formUrl.value = "";
-  cardPopup.setEventListeners();
   cardPopup.open();
 });
 

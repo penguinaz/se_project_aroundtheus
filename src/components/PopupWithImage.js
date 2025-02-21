@@ -1,15 +1,16 @@
 import Popup from "./Popup.js";
-import { imageModalCaption, imageModalPicture } from "./Constants.js";
 
 export default class PopupWithImage extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
+    this._imageModalPicture = document.querySelector(".modal-image__picture");
+    this._imageModalCaption = document.querySelector(".modal-image__caption");
   }
 
   open(data) {
-    imageModalPicture.src = data.link;
-    imageModalPicture.alt = data.name;
-    imageModalCaption.textContent = data.name;
+    this._imageModalPicture.src = data.link;
+    this._imageModalPicture.alt = data.name;
+    this._imageModalCaption.textContent = data.name;
     super.open();
   }
 }
