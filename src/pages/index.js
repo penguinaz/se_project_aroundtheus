@@ -58,7 +58,7 @@ editBtn.addEventListener("click", () => {
 // set up popup with form for adding a card
 const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
   cardSection.addItem({ name: title, link: url });
-  document.querySelector("#card-modal").querySelector(".form").reset();
+  cardPopup.resetForm();
 });
 cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
