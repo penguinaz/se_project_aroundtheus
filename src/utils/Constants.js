@@ -48,5 +48,3 @@ export const imageModalCaption = document.querySelector(
 export const forms = [...document.querySelectorAll(options.formSelector)];
 export const formName = document.querySelector(".form__input#name");
 export const formCaption = document.querySelector(".form__input#caption");
-export const formTitle = document.querySelector(".form__input#title");
-export const formUrl = document.querySelector(".form__input#url");

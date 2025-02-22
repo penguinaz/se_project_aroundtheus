@@ -7,12 +7,10 @@ import {
   options,
   formName,
   formCaption,
-  formTitle,
-  formUrl,
   forms,
   editBtn,
   addBtn,
-} from "../components/Constants.js";
+} from "../utils/Constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
