@@ -3,7 +3,6 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import {
-  initialCards,
   options,
   formName,
   formCaption,
@@ -14,6 +13,15 @@ import {
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "5e8acbbd-4426-43e4-895b-01bd99bee13b",
+    "Content-Type": "application/json",
+  },
+});
 
 // set up popups with images
 const imageInstance = new PopupWithImage("#image-modal");
@@ -22,17 +30,24 @@ function handleImageClick({ name, link }) {
   imageInstance.open({ name, link });
 }
 
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (item, method = "prepend", elementContainer) => {
-      const cardElement = new Card(item, "#element", handleImageClick);
-      elementContainer[method](cardElement.createCard());
-    },
-  },
-  ".elements__container"
-);
-cardSection.renderItems(); // generate default cards
+api
+  .getInitialCards()
+  .then((data) => {
+    const cardSection = new Section(
+      {
+        items: data,
+        renderer: (item, method = "prepend", elementContainer) => {
+          const cardElement = new Card(item, "#element", handleImageClick);
+          elementContainer[method](cardElement.createCard());
+        },
+      },
+      ".elements__container"
+    );
+    cardSection.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // set up user profile
 const profileInfo = new UserInfo({
@@ -40,11 +55,23 @@ const profileInfo = new UserInfo({
   captionSelector: ".profile__caption",
 });
 
+api.getUserInfo().then((data) => {
+  profileInfo.setUserInfo({ name: data.name, caption: data.about });
+});
+
 // set up popup with profile form
 const profilePopup = new PopupWithForm(
   "#profile-modal",
   ({ name, caption }) => {
-    profileInfo.setUserInfo(name, caption);
+    profileInfo.setUserInfo({ name, caption });
+    api
+      .patchUserInfo({ name, about: caption })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 );
 profilePopup.setEventListeners();
@@ -59,6 +86,7 @@ editBtn.addEventListener("click", () => {
 const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
   cardSection.addItem({ name: title, link: url });
   cardPopup.resetForm();
+  api.postNewCard({ name: title, link: url }).then((data) => console.log(data));
 });
 cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
