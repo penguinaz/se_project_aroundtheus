@@ -1,12 +1,13 @@
 export default class Card {
   constructor(
-    { name, link },
+    { name, link, _id },
     cardSelector,
     handleImageClick,
     handleDeleteClick
   ) {
     this.name = name;
     this.link = link;
+    this.id = _id;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteClick = handleDeleteClick;
@@ -20,8 +21,6 @@ export default class Card {
   _handleLikeClick(evt) {
     evt.currentTarget.classList.toggle("element__like-btn_active");
   }
-
-  // evt.currentTarget.closest(".element").remove();
 
   _setEventListeners() {
     this._cardElement
@@ -40,6 +39,7 @@ export default class Card {
     this._cardImage.alt = this.name;
     this._cardElement.querySelector(".element__title").textContent = this.name;
     this._setEventListeners();
+    this._cardElement.id = this.id;
     return this._cardElement;
   }
 }

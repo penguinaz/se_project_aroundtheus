@@ -32,9 +32,18 @@ function handleImageClick({ name, link }) {
 }
 const popupConfirmDelete = new PopupWithConfirm("#delete-modal", (element) => {
   element.remove();
+  api
+    .deleteCard(element.id)
+    .then((message) => {
+      console.log(message);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 function handleDeleteClick(evt) {
-  popupConfirmDelete.setEventListeners(evt.currentTarget.closest(".element"));
+  const element = evt.currentTarget.closest(".element");
+  popupConfirmDelete.setEventListeners(element);
   popupConfirmDelete.open();
 }
 
