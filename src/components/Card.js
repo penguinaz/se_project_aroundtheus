@@ -1,9 +1,15 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleImageClick) {
+  constructor(
+    { name, link },
+    cardSelector,
+    handleImageClick,
+    handleDeleteClick
+  ) {
     this.name = name;
     this.link = link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._handleDeleteClick = handleDeleteClick;
     this._cardElement = document
       .querySelector(this._cardSelector)
       .content.querySelector(".element")
@@ -15,9 +21,7 @@ export default class Card {
     evt.currentTarget.classList.toggle("element__like-btn_active");
   }
 
-  _handleDeleteClick(evt) {
-    evt.currentTarget.closest(".element").remove();
-  }
+  // evt.currentTarget.closest(".element").remove();
 
   _setEventListeners() {
     this._cardElement

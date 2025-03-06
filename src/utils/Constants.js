@@ -26,7 +26,7 @@ export const initialCards = [
 ];
 
 export const options = {
-  formSelector: ".modal__form",
+  formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".form__save-btn",
   inactiveButtonClass: "form__save-btn_disabled",

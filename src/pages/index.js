@@ -12,6 +12,7 @@ import {
 } from "../utils/Constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirm from "../components/PopupWithConfirm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
@@ -29,24 +30,37 @@ imageInstance.setEventListeners();
 function handleImageClick({ name, link }) {
   imageInstance.open({ name, link });
 }
+const popupConfirmDelete = new PopupWithConfirm("#delete-modal", (element) => {
+  element.remove();
+});
+function handleDeleteClick(evt) {
+  popupConfirmDelete.setEventListeners(evt.currentTarget.closest(".element"));
+  popupConfirmDelete.open();
+}
+
+const cardSection = new Section(
+  {
+    items: [],
+    renderer: (item, method = "prepend", elementContainer) => {
+      const cardElement = new Card(
+        item,
+        "#element",
+        handleImageClick,
+        handleDeleteClick
+      );
+      elementContainer[method](cardElement.createCard());
+    },
+  },
+  ".elements__container"
+);
 
 api
   .getInitialCards()
   .then((data) => {
-    const cardSection = new Section(
-      {
-        items: data,
-        renderer: (item, method = "prepend", elementContainer) => {
-          const cardElement = new Card(item, "#element", handleImageClick);
-          elementContainer[method](cardElement.createCard());
-        },
-      },
-      ".elements__container"
-    );
-    cardSection.renderItems();
+    cardSection.renderItems(data);
   })
   .catch((err) => {
-    console.log(err);
+    console.error(err);
   });
 
 // set up user profile
