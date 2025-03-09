@@ -126,10 +126,10 @@ penBtn.addEventListener("click", () => {
 const profilePopup = new PopupWithForm(
   "#profile-modal",
   ({ name, caption }) => {
-    profileInfo.setUserInfo({ name, caption });
     api
       .patchUserInfo({ name, about: caption })
       .then((data) => {
+        profileInfo.setUserInfo({ name, caption, avatar: data.avatar });
         console.log(data);
       })
       .catch((err) => {
