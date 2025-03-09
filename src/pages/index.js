@@ -9,6 +9,7 @@ import {
   forms,
   editBtn,
   addBtn,
+  penBtn,
 } from "../utils/Constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -30,19 +31,36 @@ imageInstance.setEventListeners();
 function handleImageClick({ name, link }) {
   imageInstance.open({ name, link });
 }
-const popupConfirmDelete = new PopupWithConfirm("#delete-modal", (element) => {
-  element.remove();
-  api
-    .deleteCard(element.id)
-    .then((message) => {
-      console.log(message);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
+
+function renderLoading(isLoading, btn, defaultText) {
+  if (isLoading) {
+    btn.textContent = "Saving...";
+    debugger;
+  } else {
+    btn.textContent = defaultText;
+    debugger;
+  }
+}
+
 function handleDeleteClick(evt) {
   const element = evt.currentTarget.closest(".element");
+  console.log(element.id);
+  const popupConfirmDelete = new PopupWithConfirm(
+    "#delete-modal",
+    (element) => {
+      renderLoading(true, popupConfirmDelete.confirmBtn);
+      api
+        .deleteCard(element.id)
+        .then((message) => {
+          console.log(message);
+          renderLoading(false, popupConfirmDelete.confirmBtn, "Yes");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      element.remove();
+    }
+  );
   popupConfirmDelete.setEventListeners(element);
   popupConfirmDelete.open();
 }
@@ -76,10 +94,32 @@ api
 const profileInfo = new UserInfo({
   nameSelector: ".profile__name",
   captionSelector: ".profile__caption",
+  avatarSelector: ".profile__picture",
 });
 
 api.getUserInfo().then((data) => {
-  profileInfo.setUserInfo({ name: data.name, caption: data.about });
+  profileInfo.setUserInfo({
+    name: data.name,
+    caption: data.about,
+    avatar: data.avatar,
+  });
+});
+
+const avatarPopup = new PopupWithForm("#avatar-modal", (avatar) => {
+  renderLoading(true, avatarPopup.submitBtn);
+  profileInfo.setUserAvatar(avatar);
+  api
+    .patchUserAvatar(avatar)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+avatarPopup.setEventListeners();
+penBtn.addEventListener("click", () => {
+  avatarPopup.open();
 });
 
 // set up popup with profile form
@@ -107,10 +147,19 @@ editBtn.addEventListener("click", () => {
 
 // set up popup with form for adding a card
 const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
-  cardSection.addItem({ name: title, link: url });
-  cardPopup.resetForm();
-  api.postNewCard({ name: title, link: url }).then((data) => console.log(data));
+  renderLoading(true, cardPopup.submitBtn);
+  api
+    .postNewCard({ name: title, link: url })
+    .then((data) => {
+      cardSection.addItem(data);
+      cardPopup.resetForm();
+      renderLoading(false, cardPopup.submitBtn, "Create");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
+
 cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
   cardPopup.open();

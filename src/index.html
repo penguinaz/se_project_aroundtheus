@@ -21,11 +21,16 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            class="profile__picture"
-            src="<%=require('./images/profile_avatar.svg')%>"
-            alt="User's profile picture"
-          />
+          <div class="profile__picture-container">
+            <img
+              class="profile__picture"
+              src="<%=require('./images/hourglass.jpg')%>"
+              alt="User's profile picture"
+            />
+            <div class="profile__picture-pen-container">
+              <button class="profile__picture-pen"></button>
+            </div>
+          </div>
           <div class="profile__info">
             <div class="profile__title">
               <h1 class="profile__name">Loading...</h1>
@@ -89,7 +94,7 @@
             required
           />
           <span class="form__error-message" id="caption-error"></span>
-          <button class="form__save-btn" id="save-btn" type="submit">
+          <button class="form__save-btn" id="profile-form-btn" type="submit">
             Save
           </button>
         </form>
@@ -120,7 +125,7 @@
             required
           />
           <span class="form__error-message" id="url-error"></span>
-          <button class="form__save-btn" id="create-btn" type="submit">
+          <button class="form__save-btn" id="card-form-btn" type="submit">
             Create
           </button>
         </form>
@@ -146,6 +151,26 @@
             Yes
           </button>
         </div>
+      </div>
+    </div>
+    <div class="modal" id="avatar-modal">
+      <div class="modal__container">
+        <button class="modal__exit-btn" type="button"></button>
+        <form class="modal__form form" id="avatar-form" novalidate>
+          <p class="form__title">Change profile picture</p>
+          <input
+            class="form__input"
+            type="url"
+            id="avatar-url"
+            name="avatar"
+            placeholder="Avatar link"
+            required
+          />
+          <span class="form__error-message" id="avatar-url-error"></span>
+          <button class="form__save-btn" id="avatar-form-btn" type="submit">
+            Save
+          </button>
+        </form>
       </div>
     </div>
   </body>

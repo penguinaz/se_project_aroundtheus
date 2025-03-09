@@ -68,8 +68,6 @@ export default class Card {
     if (this.isLiked) {
       this._likeBtn.classList.add("element__like-btn_active");
     }
-    console.log(this.isLiked);
-    console.log(this.id);
     this._cardElement.id = this.id;
     return this._cardElement;
   }

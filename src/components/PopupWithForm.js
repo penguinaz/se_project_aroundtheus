@@ -9,6 +9,7 @@ export default class PopupWithForm extends Popup {
       handleFormSubmit(this._getInputValues());
       super.close();
     };
+    this.submitBtn = document.querySelector(".form__save-btn");
   }
 
   _getInputValues() {

@@ -37,6 +37,7 @@ export const options = {
 // Buttons and other nodes:
 export const editBtn = document.querySelector(".profile__edit-btn");
 export const addBtn = document.querySelector(".profile__add-btn");
+export const penBtn = document.querySelector(".profile__picture-pen");
 export const imageModalPicture = document.querySelector(
   ".modal-image__picture"
 );
