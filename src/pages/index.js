@@ -17,6 +17,33 @@ import PopupWithConfirm from "../components/PopupWithConfirm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
+function renderLoading(isLoading, btn, defaultText) {
+  if (isLoading) {
+    btn.textContent = "Saving...";
+  } else {
+    btn.textContent = defaultText;
+  }
+}
+
+function handleDeleteClick(evt) {
+  const element = evt.currentTarget.closest(".element");
+  const popupConfirmDelete = new PopupWithConfirm(
+    "#delete-modal",
+    (element) => {
+      return api.deleteCard(element.id).then(() => {
+        element.remove();
+      });
+    },
+    element,
+    renderLoading
+  );
+  popupConfirmDelete.open();
+}
+
+function handleImageClick({ name, link }) {
+  imageInstance.open({ name, link });
+}
+
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -28,43 +55,8 @@ const api = new Api({
 // set up popups with images
 const imageInstance = new PopupWithImage("#image-modal");
 imageInstance.setEventListeners();
-function handleImageClick({ name, link }) {
-  imageInstance.open({ name, link });
-}
 
-function renderLoading(isLoading, btn, defaultText) {
-  if (isLoading) {
-    btn.textContent = "Saving...";
-    debugger;
-  } else {
-    btn.textContent = defaultText;
-    debugger;
-  }
-}
-
-function handleDeleteClick(evt) {
-  const element = evt.currentTarget.closest(".element");
-  console.log(element.id);
-  const popupConfirmDelete = new PopupWithConfirm(
-    "#delete-modal",
-    (element) => {
-      renderLoading(true, popupConfirmDelete.confirmBtn);
-      api
-        .deleteCard(element.id)
-        .then((message) => {
-          console.log(message);
-          renderLoading(false, popupConfirmDelete.confirmBtn, "Yes");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      element.remove();
-    }
-  );
-  popupConfirmDelete.setEventListeners(element);
-  popupConfirmDelete.open();
-}
-
+// set up section with card elements
 const cardSection = new Section(
   {
     items: [],
@@ -80,7 +72,7 @@ const cardSection = new Section(
   },
   ".elements__container"
 );
-
+// populate the card section with cards from server
 api
   .getInitialCards()
   .then((data) => {
@@ -96,7 +88,7 @@ const profileInfo = new UserInfo({
   captionSelector: ".profile__caption",
   avatarSelector: ".profile__picture",
 });
-
+// populate user profile with data from server
 api.getUserInfo().then((data) => {
   profileInfo.setUserInfo({
     name: data.name,
@@ -105,18 +97,16 @@ api.getUserInfo().then((data) => {
   });
 });
 
-const avatarPopup = new PopupWithForm("#avatar-modal", (avatar) => {
-  renderLoading(true, avatarPopup.submitBtn);
-  profileInfo.setUserAvatar(avatar);
-  api
-    .patchUserAvatar(avatar)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
+const avatarPopup = new PopupWithForm(
+  "#avatar-modal",
+  ({ avatar }) => {
+    return api.patchUserAvatar({ avatar }).then((data) => {
+      profileInfo.setUserAvatar({ avatar: data.avatar });
     });
-});
+  },
+  renderLoading,
+  "Save"
+);
 avatarPopup.setEventListeners();
 penBtn.addEventListener("click", () => {
   avatarPopup.open();
@@ -126,16 +116,12 @@ penBtn.addEventListener("click", () => {
 const profilePopup = new PopupWithForm(
   "#profile-modal",
   ({ name, caption }) => {
-    api
-      .patchUserInfo({ name, about: caption })
-      .then((data) => {
-        profileInfo.setUserInfo({ name, caption, avatar: data.avatar });
-        console.log(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+    return api.patchUserInfo({ name, about: caption }).then((data) => {
+      profileInfo.setUserInfo({ name, caption, avatar: data.avatar });
+    });
+  },
+  renderLoading,
+  "Save"
 );
 profilePopup.setEventListeners();
 editBtn.addEventListener("click", () => {
@@ -146,20 +132,17 @@ editBtn.addEventListener("click", () => {
 });
 
 // set up popup with form for adding a card
-const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
-  renderLoading(true, cardPopup.submitBtn);
-  api
-    .postNewCard({ name: title, link: url })
-    .then((data) => {
+const cardPopup = new PopupWithForm(
+  "#card-modal",
+  ({ title, url }) => {
+    return api.postNewCard({ name: title, link: url }).then((data) => {
       cardSection.addItem(data);
       cardPopup.resetForm();
-      renderLoading(false, cardPopup.submitBtn, "Create");
-    })
-    .catch((err) => {
-      console.error(err);
     });
-});
-
+  },
+  renderLoading,
+  "Create"
+);
 cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
   cardPopup.open();
