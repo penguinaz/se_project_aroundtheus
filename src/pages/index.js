@@ -44,6 +44,17 @@ function handleImageClick({ name, link }) {
   imageInstance.open({ name, link });
 }
 
+function handleLikeClick(id, isLiked) {
+  if (isLiked) {
+    return api.unlikeCard(id).catch((err) => {
+      console.error(err);
+    });
+  }
+  return api.likeCard(id).catch((err) => {
+    console.error(err);
+  });
+}
+
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -65,7 +76,8 @@ const cardSection = new Section(
         item,
         "#element",
         handleImageClick,
-        handleDeleteClick
+        handleDeleteClick,
+        handleLikeClick
       );
       elementContainer[method](cardElement.createCard());
     },

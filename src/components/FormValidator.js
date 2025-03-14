@@ -51,15 +51,14 @@ export default class FormValidator {
   enableValidation() {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
+      this._toggleSaveButton();
     });
     this._inputList = [
       ...this._form.querySelectorAll(this._options.inputSelector),
     ];
-    document
-      .querySelector(`#${this._form.id}-btn`)
-      .addEventListener("click", () => {
-        this._toggleSaveButton();
-      });
+    this._saveButton.addEventListener("click", () => {
+      this._toggleSaveButton();
+    });
     this._setEventListeners();
   }
 }
