@@ -5,6 +5,7 @@ export default class FormValidator {
     this._saveButton = this._form.querySelector(
       this._options.submitButtonSelector
     );
+    this._formOpener = document.querySelector(`#${this._form.id}-opener`);
   }
 
   _toggleSaveButton() {
@@ -45,6 +46,9 @@ export default class FormValidator {
         this._checkInputValidity(evt.target);
         this._toggleSaveButton();
       });
+    });
+    this._formOpener.addEventListener("click", () => {
+      this._toggleSaveButton();
     });
   }
 

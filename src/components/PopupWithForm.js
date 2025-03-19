@@ -1,14 +1,14 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, handleFormSubmit, renderLoading, defaultText) {
+  constructor(popupSelector, handleFormSubmit, defaultText) {
     super(popupSelector);
     this._formElement = this._popup.querySelector(".form");
-    this.submitBtn = document.querySelector(".form__save-btn");
-    this._renderLoading = renderLoading;
+    this.submitBtn = this._popup.querySelector(".form__save-btn");
+    this._submitBtnText = this.submitBtn.textContent;
     this._handleFormSubmit = (e) => {
       e.preventDefault();
-      this._renderLoading(true, this.submitBtn);
+      this._renderLoading(true);
       handleFormSubmit(this._getInputValues())
         .then(() => {
           super.close();
@@ -17,9 +17,17 @@ export default class PopupWithForm extends Popup {
           console.error(err);
         })
         .finally(() => {
-          this._renderLoading(false, this.submitBtn, defaultText);
+          this._renderLoading(false);
         });
     };
+  }
+
+  _renderLoading(isLoading, loadingText = "Saving...") {
+    if (isLoading) {
+      this.submitBtn.textContent = loadingText;
+    } else {
+      this.submitBtn.textContent = this._submitBtnText;
+    }
   }
 
   _getInputValues() {

@@ -1,19 +1,13 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithConfirm extends Popup {
-  constructor(
-    popupSelector,
-    handleConfirmClick,
-    elementToRemove,
-    renderLoading
-  ) {
+  constructor(popupSelector, handleConfirmClick, renderLoading) {
     super(popupSelector);
     this.submitBtn = this._popup.querySelector("#delete-btn");
-    this.element = elementToRemove;
     this._renderLoading = renderLoading;
     this._handleConfirmClick = () => {
       this._renderLoading(true, this.submitBtn);
-      handleConfirmClick(this.element)
+      handleConfirmClick(this._element)
         .then(() => {
           this.close();
         })
@@ -26,13 +20,9 @@ export default class PopupWithConfirm extends Popup {
     };
   }
 
-  _setEventListeners() {
+  open(element) {
+    this._element = element;
     this.submitBtn.addEventListener("click", this._handleConfirmClick);
-    super.setEventListeners();
-  }
-
-  open() {
-    this._setEventListeners();
     super.open();
   }
 

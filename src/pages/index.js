@@ -27,17 +27,7 @@ function renderLoading(isLoading, btn, defaultText) {
 
 function handleDeleteClick(evt) {
   const element = evt.currentTarget.closest(".element");
-  const popupConfirmDelete = new PopupWithConfirm(
-    "#delete-modal",
-    (element) => {
-      return api.deleteCard(element.id).then(() => {
-        element.remove();
-      });
-    },
-    element,
-    renderLoading
-  );
-  popupConfirmDelete.open();
+  popupConfirmDelete.open(element);
 }
 
 function handleImageClick({ name, link }) {
@@ -62,6 +52,17 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+const popupConfirmDelete = new PopupWithConfirm(
+  "#delete-modal",
+  (element) => {
+    return api.deleteCard(element.id).then(() => {
+      element.remove();
+    });
+  },
+  renderLoading
+);
+popupConfirmDelete.setEventListeners();
 
 // set up popups with images
 const imageInstance = new PopupWithImage("#image-modal");
@@ -101,13 +102,18 @@ const profileInfo = new UserInfo({
   avatarSelector: ".profile__picture",
 });
 // populate user profile with data from server
-api.getUserInfo().then((data) => {
-  profileInfo.setUserInfo({
-    name: data.name,
-    caption: data.about,
-    avatar: data.avatar,
+api
+  .getUserInfo()
+  .then((data) => {
+    profileInfo.setUserInfo({
+      name: data.name,
+      caption: data.about,
+      avatar: data.avatar,
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-});
 
 const avatarPopup = new PopupWithForm(
   "#avatar-modal",
