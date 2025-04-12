@@ -23,7 +23,10 @@
   background-color: white;
   border-radius: 10px;
   max-width: 282px;
-  min-height: 322px;
+}
+
+.modal__container_size_mini {
+  min-height: 180px;
 }
 
 .modal__exit-btn {
@@ -49,6 +52,10 @@
 @media screen and (min-width: 645px) {
   .modal__container {
     max-width: 440px;
+  }
+
+  .modal__container_size_mini {
+    min-width: 430px;
   }
 
   .modal__exit-btn {

@@ -3,49 +3,143 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import {
-  initialCards,
   options,
   formName,
   formCaption,
   forms,
   editBtn,
   addBtn,
+  penBtn,
 } from "../utils/Constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirm from "../components/PopupWithConfirm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 
-// set up popups with images
-const imageInstance = new PopupWithImage("#image-modal");
-imageInstance.setEventListeners();
+function renderLoading(isLoading, btn, defaultText) {
+  if (isLoading) {
+    btn.textContent = "Saving...";
+  } else {
+    btn.textContent = defaultText;
+  }
+}
+
+function handleDeleteClick(evt) {
+  const element = evt.currentTarget.closest(".element");
+  popupConfirmDelete.open(element);
+}
+
 function handleImageClick({ name, link }) {
   imageInstance.open({ name, link });
 }
 
+function handleLikeClick(id, isLiked) {
+  if (isLiked) {
+    return api.unlikeCard(id).catch((err) => {
+      console.error(err);
+    });
+  }
+  return api.likeCard(id).catch((err) => {
+    console.error(err);
+  });
+}
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "5e8acbbd-4426-43e4-895b-01bd99bee13b",
+    "Content-Type": "application/json",
+  },
+});
+
+const popupConfirmDelete = new PopupWithConfirm(
+  "#delete-modal",
+  (element) => {
+    return api.deleteCard(element.id).then(() => {
+      element.remove();
+    });
+  },
+  renderLoading
+);
+popupConfirmDelete.setEventListeners();
+
+// set up popups with images
+const imageInstance = new PopupWithImage("#image-modal");
+imageInstance.setEventListeners();
+
+// set up section with card elements
 const cardSection = new Section(
   {
-    items: initialCards,
+    items: [],
     renderer: (item, method = "prepend", elementContainer) => {
-      const cardElement = new Card(item, "#element", handleImageClick);
+      const cardElement = new Card(
+        item,
+        "#element",
+        handleImageClick,
+        handleDeleteClick,
+        handleLikeClick
+      );
       elementContainer[method](cardElement.createCard());
     },
   },
   ".elements__container"
 );
-cardSection.renderItems(); // generate default cards
+// populate the card section with cards from server
+api
+  .getInitialCards()
+  .then((data) => {
+    cardSection.renderItems(data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 // set up user profile
 const profileInfo = new UserInfo({
   nameSelector: ".profile__name",
   captionSelector: ".profile__caption",
+  avatarSelector: ".profile__picture",
+});
+// populate user profile with data from server
+api
+  .getUserInfo()
+  .then((data) => {
+    profileInfo.setUserInfo({
+      name: data.name,
+      caption: data.about,
+      avatar: data.avatar,
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+const avatarPopup = new PopupWithForm(
+  "#avatar-modal",
+  ({ avatar }) => {
+    return api.patchUserAvatar({ avatar }).then((data) => {
+      profileInfo.setUserAvatar({ avatar: data.avatar });
+    });
+  },
+  renderLoading,
+  "Save"
+);
+avatarPopup.setEventListeners();
+penBtn.addEventListener("click", () => {
+  avatarPopup.open();
 });
 
 // set up popup with profile form
 const profilePopup = new PopupWithForm(
   "#profile-modal",
   ({ name, caption }) => {
-    profileInfo.setUserInfo(name, caption);
-  }
+    return api.patchUserInfo({ name, about: caption }).then((data) => {
+      profileInfo.setUserInfo({ name, caption, avatar: data.avatar });
+    });
+  },
+  renderLoading,
+  "Save"
 );
 profilePopup.setEventListeners();
 editBtn.addEventListener("click", () => {
@@ -56,10 +150,17 @@ editBtn.addEventListener("click", () => {
 });
 
 // set up popup with form for adding a card
-const cardPopup = new PopupWithForm("#card-modal", ({ title, url }) => {
-  cardSection.addItem({ name: title, link: url });
-  cardPopup.resetForm();
-});
+const cardPopup = new PopupWithForm(
+  "#card-modal",
+  ({ title, url }) => {
+    return api.postNewCard({ name: title, link: url }).then((data) => {
+      cardSection.addItem(data);
+      cardPopup.resetForm();
+    });
+  },
+  renderLoading,
+  "Create"
+);
 cardPopup.setEventListeners();
 addBtn.addEventListener("click", () => {
   cardPopup.open();

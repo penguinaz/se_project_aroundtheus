@@ -26,7 +26,7 @@ export const initialCards = [
 ];
 
 export const options = {
-  formSelector: ".modal__form",
+  formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".form__save-btn",
   inactiveButtonClass: "form__save-btn_disabled",
@@ -37,6 +37,7 @@ export const options = {
 // Buttons and other nodes:
 export const editBtn = document.querySelector(".profile__edit-btn");
 export const addBtn = document.querySelector(".profile__add-btn");
+export const penBtn = document.querySelector(".profile__picture-pen");
 export const imageModalPicture = document.querySelector(
   ".modal-image__picture"
 );

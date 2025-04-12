@@ -21,25 +21,33 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            class="profile__picture"
-            src="<%=require('./images/profile_avatar.svg')%>"
-            alt="User's profile picture"
-          />
+          <div class="profile__picture-container">
+            <img
+              class="profile__picture"
+              src="<%=require('./images/hourglass.jpg')%>"
+              alt="User's profile picture"
+            />
+            <div class="profile__picture-pen-container">
+              <button
+                class="profile__picture-pen"
+                id="avatar-form-opener"
+              ></button>
+            </div>
+          </div>
           <div class="profile__info">
             <div class="profile__title">
-              <h1 class="profile__name">Jacques Cousteau</h1>
+              <h1 class="profile__name">Loading...</h1>
               <button
                 class="profile__edit-btn"
-                id="profile-form-btn"
+                id="profile-form-opener"
                 type="button"
               ></button>
             </div>
-            <p class="profile__caption">Explorer</p>
+            <p class="profile__caption">Loading...</p>
           </div>
           <button
             class="profile__add-btn"
-            id="card-form-btn"
+            id="card-form-opener"
             type="button"
           ></button>
         </section>
@@ -89,7 +97,7 @@
             required
           />
           <span class="form__error-message" id="caption-error"></span>
-          <button class="form__save-btn" id="save-btn" type="submit">
+          <button class="form__save-btn" id="profile-form-btn" type="submit">
             Save
           </button>
         </form>
@@ -120,7 +128,7 @@
             required
           />
           <span class="form__error-message" id="url-error"></span>
-          <button class="form__save-btn" id="create-btn" type="submit">
+          <button class="form__save-btn" id="card-form-btn" type="submit">
             Create
           </button>
         </form>
@@ -131,6 +139,41 @@
         <button class="modal__exit-btn" type="button"></button>
         <img class="modal-image__picture" src="" alt="" />
         <p class="modal-image__caption"></p>
+      </div>
+    </div>
+    <div class="modal" id="delete-modal">
+      <div class="modal__container modal__container_size_mini">
+        <button class="modal__exit-btn" type="button"></button>
+        <div class="modal__form">
+          <p class="form__title">Are you sure?</p>
+          <button
+            class="form__save-btn form__save-btn_type_confirm"
+            id="delete-btn"
+            type="button"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="avatar-modal">
+      <div class="modal__container">
+        <button class="modal__exit-btn" type="button"></button>
+        <form class="modal__form form" id="avatar-form" novalidate>
+          <p class="form__title">Change profile picture</p>
+          <input
+            class="form__input"
+            type="url"
+            id="avatar-url"
+            name="avatar"
+            placeholder="Avatar link"
+            required
+          />
+          <span class="form__error-message" id="avatar-url-error"></span>
+          <button class="form__save-btn" id="avatar-form-btn" type="submit">
+            Save
+          </button>
+        </form>
       </div>
     </div>
   </body>
